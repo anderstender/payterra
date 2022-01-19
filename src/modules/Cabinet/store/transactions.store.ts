@@ -34,7 +34,6 @@ export default createStore<TransactionsState>({
       * по хорошему это вообще нужно в сам api
       * */
       commit('pushTransactions', requestResult.result);
-      console.log(requestResult.result);
       commit('setPage', requestResult.page);
     },
     async loadNextPage({ dispatch, state }) {

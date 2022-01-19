@@ -7,10 +7,7 @@ export default class Transaction extends Entity {
 
   event_name = ''
 
-  @Transform(({ value }) => {
-    console.log(value, moment(new Date(value)).format('YYYY.MM.DD HH:mm'));
-    return moment(new Date(value));
-  }, { toClassOnly: true })
+  @Transform(({ value }) => moment(value), { toClassOnly: true })
   created_at: Moment = moment()
 
   event_id = 0

@@ -51,9 +51,6 @@ export default defineComponent({
       return this.transaction.description || '';
     },
   },
-  mounted() {
-    console.log(this.transaction, this.transaction.created_at.unix());
-  },
 });
 </script>
 
