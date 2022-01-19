@@ -1,10 +1,10 @@
 <template>
   <div class="pt-transactions-group">
     <PTTransactionsGroup
-      v-for="transactionPair in transactionsGroups"
-      :key="transactionPair[0]"
-      :day-unix="transactionPair[0]"
-      :transactions="transactionPair[1]"
+      v-for="unix in groupsKeys"
+      :key="unix"
+      :day-unix="unix"
+      :transactions="transactionsGroups[unix]"
     />
   </div>
 </template>
@@ -16,22 +16,25 @@ import PTTransactionsGroup from '@/components/Transactions/PTTransactionsGroup.v
 
 export default defineComponent({
   name: 'PTTransactions',
-  props: {
-    transactions: { type: Array as PropType<Transaction[]>, default: () => ([]) },
-  },
   components: {
     PTTransactionsGroup,
   },
+  props: {
+    transactions: { type: Array as PropType<Transaction[]>, default: () => ([]) },
+  },
   computed: {
-    transactionsGroups(): [number, Transaction[]][] {
-      return Object.entries(this.transactions.reduce((acc, transaction) => {
-        const dayTimestamp = Number(transaction.created_at.clone().startOf('day').unix());
+    transactionsGroups(): {[key: number]: Transaction[]} {
+      return this.transactions.reduce((acc, transaction) => {
+        const dayTimestamp = transaction.created_at.clone().startOf('day').unix();
         if (!acc[dayTimestamp]) {
           acc[dayTimestamp] = [];
         }
         acc[dayTimestamp].push(transaction);
         return acc;
-      }, {})).map((pair) => [Number(pair[0]), pair[1]]).sort((a, b) => b[0] - a[0]);
+      }, {} as unknown as {[key: number]: Transaction[]});
+    },
+    groupsKeys() {
+      return Object.keys(this.transactionsGroups).map((key) => Number(key)).sort((a, b) => b - a);
     },
   },
 });
