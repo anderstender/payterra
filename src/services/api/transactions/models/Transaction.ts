@@ -1,6 +1,7 @@
 import Entity from '@/models/Entity';
 import moment, { Moment } from 'moment';
 import { Transform } from 'class-transformer';
+import { Currency } from '@/models/Currency';
 
 export default class Transaction extends Entity {
   description = ''
@@ -12,7 +13,7 @@ export default class Transaction extends Entity {
 
   event_id = 0
 
-  currency: Record<string, any> = {}
+  currency!: Currency
 
   account_number!: string
 
