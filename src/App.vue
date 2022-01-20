@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Report from '@/modules/Cabinet/Report.vue';
+import Report from '@/modules/Report/Report.vue';
 
 export default defineComponent({
   name: 'App',

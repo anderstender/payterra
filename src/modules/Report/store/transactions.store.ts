@@ -21,6 +21,10 @@ export default createStore<TransactionsState>({
       state.transactions = transactions;
     },
     pushTransactions(state: TransactionsState, transactions: Transaction[]) {
+      /*
+      * вообще тут нужно mergeTransactions делать
+      * так как интерфейс предполагает автоподгрузку
+      * */
       state.transactions.push(...transactions);
     },
     setPage(state: TransactionsState, page: number) {
@@ -30,9 +34,6 @@ export default createStore<TransactionsState>({
   actions: {
     async loadTransactions({ commit }, page: number) {
       const requestResult = await transactionsApi.getList(page);
-      /*
-      * по хорошему это вообще нужно в сам api
-      * */
       commit('pushTransactions', requestResult.result);
       commit('setPage', requestResult.page);
     },
